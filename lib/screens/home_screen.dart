@@ -11,6 +11,7 @@ import 'courier/courier_dashboard_screen.dart';
 import 'courier/courier_profile_screen.dart';
 import 'courier/courier_history_screen.dart';
 import 'courier/courier_chat_screen.dart';
+import 'seller/seller_history_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -49,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
       const SellerDashboardScreen(),
       const SellerChatScreen(),
       const SellerOrdersScreen(),
-      Container(),
+      const SellerHistoryScreen(),
       const SellerProfileScreen(),
     ];
 

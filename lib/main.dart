@@ -5,6 +5,7 @@ import 'providers/product_provider.dart';
 import 'providers/order_provider.dart';
 import 'screens/login_screen.dart';
 import 'screens/home_screen.dart';
+import 'screens/seller/seller_history_screen.dart';
 import 'utils/constants.dart';
 
 void main() {
@@ -56,6 +57,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/login': (context) => const LoginScreen(),
           '/home': (context) => const HomeScreen(),
+          '/history': (context) => const SellerHistoryScreen(),
         },
       ),
     );

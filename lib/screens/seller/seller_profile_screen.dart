@@ -153,7 +153,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                 child: IconButton(
                   icon: const Icon(Icons.logout, color: Colors.white),
                   onPressed: () {
-                    // TODO: Logout
+                    Navigator.pushReplacementNamed(context, '/login');
                   },
                 ),
               ),
