@@ -4,6 +4,9 @@ import '../../providers/auth_provider.dart';
 import '../../providers/order_provider.dart';
 import '../../utils/constants.dart';
 import '../../widgets/custom_button.dart';
+import 'courier_delivery_screen.dart';
+import 'card_courier_history_detail_screen.dart';
+import 'courier_capture_screen.dart';
 
 class CourierDashboardScreen extends StatefulWidget {
   const CourierDashboardScreen({super.key});
@@ -119,28 +122,145 @@ class _CourierDashboardScreenState extends State<CourierDashboardScreen> with Si
                   );
                 } else if (_tabIndex == 1) {
                   // Konfirmasi
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const SizedBox(height: 40),
-                        Image.asset('assets/images/motor.jpg', height: 120),
-                        const SizedBox(height: 24),
-                        const Text(
-                          'Belum ada pengantaran',
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black),
+                  return ListView(
+                    padding: const EdgeInsets.all(16),
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 16),
+                        padding: const EdgeInsets.all(14),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(16),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.07),
+                              blurRadius: 8,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
                         ),
-                        const SizedBox(height: 8),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 24),
-                          child: Text(
-                            'Selesaikan pengantaran pesanan dari penjual, lihat pada "Untuk Dikirim".',
-                            style: TextStyle(fontSize: 14, color: Colors.grey),
-                            textAlign: TextAlign.center,
-                          ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // Badge/logo kiri
+                                Container(
+                                  width: 44,
+                                  height: 44,
+                                  decoration: BoxDecoration(
+                                    color: Colors.blue[50],
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: ClipOval(
+                                    child: Image.asset('assets/images/logo.png', fit: BoxFit.cover),
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          const Text('#TRDKN2350', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
+                                          const Spacer(),
+                                          Text('x 2 menu', style: TextStyle(fontSize: 12, color: Colors.grey[700])),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 2),
+                                      const Text('13 Januari 2025 12:34:20', style: TextStyle(fontSize: 12, color: Colors.grey)),
+                                      const SizedBox(height: 2),
+                                      const Text('Dalam pengantaran', style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 14)),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 10),
+                            // Dua kolom label-isi
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // Label kiri
+                                Expanded(
+                                  flex: 2,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: const [
+                                      SizedBox(height: 2),
+                                      Text('Dipesan oleh', style: TextStyle(fontSize: 13, color: Colors.grey)),
+                                      SizedBox(height: 8),
+                                      Text('Alamat', style: TextStyle(fontSize: 13, color: Colors.grey)),
+                                      SizedBox(height: 8),
+                                      Text('Catatan', style: TextStyle(fontSize: 13, color: Colors.grey)),
+                                      SizedBox(height: 8),
+                                      Text('Biaya Pengiriman', style: TextStyle(fontSize: 13, color: Colors.grey)),
+                                    ],
+                                  ),
+                                ),
+                                // Isi kanan
+                                Expanded(
+                                  flex: 3,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      const Text('Dewi Sartika', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                                      const SizedBox(height: 8),
+                                      const Text('Gedung Teknologi Informasi', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                                      const SizedBox(height: 8),
+                                      const Text('Lantai 1 Ruang Baca JTI', style: TextStyle(fontSize: 13)),
+                                      const SizedBox(height: 8),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                            decoration: BoxDecoration(
+                                              color: Colors.blue[50],
+                                              borderRadius: BorderRadius.circular(8),
+                                            ),
+                                            child: const Text('+ Rp 2.000', style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 13)),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 10),
+                            Row(
+                              children: [
+                                const Spacer(),
+                                const Text('Rp 22.000', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue, fontSize: 15)),
+                                const SizedBox(width: 10),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => const CourierCaptureScreen(),
+                                      ),
+                                    );
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.blue,
+                                    foregroundColor: Colors.white,
+                                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                                  ),
+                                  child: const Text('Foto Bukti'),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   );
                 } else {
                   // Dibatalkan
@@ -253,7 +373,7 @@ class _CourierDashboardScreenState extends State<CourierDashboardScreen> with Si
     required String orderId,
     required String date,
   }) {
-    return Container(
+    Widget cardContent = Container(
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -334,7 +454,11 @@ class _CourierDashboardScreenState extends State<CourierDashboardScreen> with Si
                               ),
                             )
                           : ElevatedButton(
-                              onPressed: buttonEnabled ? () {} : null,
+                              onPressed: buttonEnabled
+                                  ? () {
+                                      _showAntarDialog(context);
+                                    }
+                                  : null,
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: buttonColor,
                                 foregroundColor: buttonTextColor,
@@ -354,6 +478,110 @@ class _CourierDashboardScreenState extends State<CourierDashboardScreen> with Si
           ),
         ],
       ),
+    );
+    // Jika orderId == '#TRDKN2350', bungkus dengan InkWell untuk navigasi ke detail
+    if (orderId == '#TRDKN2350') {
+      return InkWell(
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const CourierHistoryDetailScreen(),
+            ),
+          );
+        },
+        borderRadius: BorderRadius.circular(16),
+        child: cardContent,
+      );
+    }
+    return cardContent;
+  }
+
+  void _showAntarDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          insetPadding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    GestureDetector(
+                      onTap: () => Navigator.of(context).pop(),
+                      child: const Icon(Icons.close, size: 28, color: Colors.black54),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 4),
+                Image.asset('assets/images/tanya.png', height: 110),
+                const SizedBox(height: 16),
+                const Text(
+                  'Pesanan siap diantarkan?',
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  'Tekan tombol "Ya" untuk mengkonfirmasi',
+                  style: TextStyle(fontSize: 15, color: Colors.grey),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 24),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: const Text('Tidak', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const CourierDeliveryScreen(),
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: const Text('Ya', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 } 
