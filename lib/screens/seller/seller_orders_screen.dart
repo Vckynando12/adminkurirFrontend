@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../models/order_model.dart';
 import '../../utils/constants.dart';
 import '../../utils/helpers.dart';
+import 'seller_menu_screen.dart';
 
 class SellerOrdersScreen extends StatefulWidget {
   const SellerOrdersScreen({super.key});
@@ -25,43 +26,278 @@ class _SellerOrdersScreenState extends State<SellerOrdersScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        title: const Text('Pesanan'),
-        backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
-        elevation: 0,
-      ),
       body: Column(
         children: [
-          // Filter Tabs
+          // Header biru
           Container(
-            padding: const EdgeInsets.all(AppSizes.paddingMedium),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
+            width: double.infinity,
+            padding: const EdgeInsets.only(top: 36, left: 18, right: 18, bottom: 18),
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [AppColors.primary, AppColors.secondary],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(0),
+                bottomRight: Radius.circular(0),
+              ),
+            ),
+            child: Row(
+              children: [
+                const Expanded(
+                  child: Text(
+                    'Pesanan',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                    ),
+                  ),
+                ),
+                Image.asset('assets/images/logoputih.png', height: 20),
+              ],
+            ),
+          ),
+          // Card Atur Menu
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 14),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(14),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.04),
+                    blurRadius: 4,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
               child: Row(
                 children: [
-                  _buildFilterChip('Semua', 'all'),
-                  const SizedBox(width: AppSizes.paddingSmall),
-                  _buildFilterChip('Menunggu', OrderStatus.pending),
-                  const SizedBox(width: AppSizes.paddingSmall),
-                  _buildFilterChip('Dikonfirmasi', OrderStatus.confirmed),
-                  const SizedBox(width: AppSizes.paddingSmall),
-                  _buildFilterChip('Dikirim', OrderStatus.shipped),
-                  const SizedBox(width: AppSizes.paddingSmall),
-                  _buildFilterChip('Terkirim', OrderStatus.delivered),
+                  Image.asset('assets/images/lg.png', height: 32),
+                  const SizedBox(width: 10),
+                  const Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Atur Menu', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                        Text('Mau atur stok menu? Klik "Menu"', style: TextStyle(fontSize: 12, color: Colors.black54)),
+                      ],
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const SellerMenuScreen()),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primary,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                      textStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                      elevation: 0,
+                    ),
+                    child: const Text('Menu'),
+                  ),
                 ],
               ),
             ),
           ),
-          
-          // Orders List
+          // Teks instruksi
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 18, vertical: 0),
+            child: Text(
+              'Tekan tombol "Memasak" untuk memasak pesanan, lalu tekan tombol "Selesai" jika sudah menyelesaikan pesanan.',
+              style: TextStyle(fontSize: 13, color: Colors.black87),
+            ),
+          ),
+          const SizedBox(height: 8),
+          // List pesanan
           Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.all(AppSizes.paddingMedium),
-              itemCount: 5, // Placeholder
-              itemBuilder: (context, index) {
-                return _buildOrderCard(_getMockOrder(index));
-              },
+            child: ListView(
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 0),
+              children: [
+                _orderCard(
+                  context,
+                  offline: true,
+                  nama: 'Nasi Ayam Geprek',
+                  gambar: 'assets/images/nasi_ayam.jpg',
+                  kode: '#TRDKN2350',
+                  waktu: '2024-01-13 12:54:20',
+                  level: 'Level 1',
+                  pembeli: 'Dwi Sartika',
+                  catatan: 'Cth: Nasinya dikit',
+                  meja: '23',
+                  status: 'Pesanan menunggu diproses',
+                ),
+                _orderCard(
+                  context,
+                  offline: false,
+                  nama: 'Nasi Ayam Geprek',
+                  gambar: 'assets/images/nasi_ayam.jpg',
+                  kode: '#TRDKN2350',
+                  waktu: '2024-01-13 12:54:20',
+                  level: 'Level 1',
+                  pembeli: 'Dwi Sartika',
+                  catatan: 'Cth: Nasinya dikit\nTambah Alat Makan',
+                  meja: null,
+                  status: 'Pesanan menunggu diproses',
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _orderCard(
+    BuildContext context, {
+    required bool offline,
+    required String nama,
+    required String gambar,
+    required String kode,
+    required String waktu,
+    required String level,
+    required String pembeli,
+    required String catatan,
+    String? meja,
+    required String status,
+  }) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 14),
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
+        border: Border.all(color: Colors.grey[200]!),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Image.asset(
+              gambar,
+              width: 54,
+              height: 54,
+              fit: BoxFit.cover,
+            ),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Baris atas: kode, waktu, status, x1
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(kode, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11)),
+                          Text(waktu, style: const TextStyle(fontSize: 9, color: Colors.black45)),
+                        ],
+                      ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          offline ? 'Pesanan Offline' : 'Pesanan Online',
+                          style: TextStyle(
+                            color: offline ? Colors.black87 : AppColors.primary,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 10,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text('x1', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11)),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 2),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Info kiri
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(nama, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+                          Text(level, style: const TextStyle(fontSize: 11, color: Colors.black87)),
+                          Text('Pembeli : $pembeli', style: const TextStyle(fontSize: 11, color: Colors.black87)),
+                        ],
+                      ),
+                    ),
+                    // Info kanan
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text('Cth: $catatan', style: const TextStyle(fontSize: 11, color: Colors.black54)),
+                        if (meja != null)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 1, bottom: 1),
+                            child: Text('Meja : $meja', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11, color: Colors.black)),
+                          ),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Flexible(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                        decoration: BoxDecoration(
+                          color: Colors.red[50],
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          status,
+                          style: const TextStyle(color: Colors.red, fontSize: 11, fontWeight: FontWeight.w600),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    SizedBox(
+                      height: 28,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFFFEB3B),
+                          foregroundColor: Colors.black,
+                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 0),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                          textStyle: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+                          elevation: 0,
+                        ),
+                        child: const Text('Memasak'),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ],
@@ -84,177 +320,6 @@ class _SellerOrdersScreenState extends State<SellerOrdersScreen> {
       labelStyle: TextStyle(
         color: isSelected ? AppColors.primary : AppColors.textSecondary,
         fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-      ),
-    );
-  }
-
-  Widget _buildOrderCard(Order order) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: AppSizes.paddingMedium),
-      elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(AppSizes.paddingMedium),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Order Header
-            Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Order #${order.id}',
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.textPrimary,
-                        ),
-                      ),
-                      const SizedBox(height: AppSizes.paddingSmall),
-                      Text(
-                        Helpers.formatDate(order.createdAt),
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: AppColors.textSecondary,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSizes.paddingMedium,
-                    vertical: AppSizes.paddingSmall,
-                  ),
-                  decoration: BoxDecoration(
-                    color: OrderStatus.getStatusColor(order.status).withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
-                  ),
-                  child: Text(
-                    OrderStatus.getDisplayName(order.status),
-                    style: TextStyle(
-                      color: OrderStatus.getStatusColor(order.status),
-                      fontWeight: FontWeight.w600,
-                      fontSize: 12,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: AppSizes.paddingMedium),
-            
-            // Order Items
-            ...order.items.map((item) => Padding(
-              padding: const EdgeInsets.only(bottom: AppSizes.paddingSmall),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      item.productName,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: AppColors.textPrimary,
-                      ),
-                    ),
-                  ),
-                  Text(
-                    '${item.quantity}x',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
-                  const SizedBox(width: AppSizes.paddingMedium),
-                  Text(
-                    Helpers.formatCurrency(item.price),
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.primary,
-                    ),
-                  ),
-                ],
-              ),
-            )).toList(),
-            
-            const Divider(),
-            
-            // Order Footer
-            Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Total:',
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: AppColors.textSecondary,
-                        ),
-                      ),
-                      Text(
-                        Helpers.formatCurrency(order.totalAmount),
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primary,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                if (order.status == OrderStatus.pending) ...[
-                  ElevatedButton(
-                    onPressed: () {
-                      _showStatusUpdateDialog(order, OrderStatus.confirmed);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.success,
-                      foregroundColor: Colors.white,
-                    ),
-                    child: const Text('Konfirmasi'),
-                  ),
-                ] else if (order.status == OrderStatus.confirmed) ...[
-                  ElevatedButton(
-                    onPressed: () {
-                      _showStatusUpdateDialog(order, OrderStatus.shipped);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.accent,
-                      foregroundColor: Colors.white,
-                    ),
-                    child: const Text('Kirim'),
-                  ),
-                ],
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _showStatusUpdateDialog(Order order, String newStatus) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Update Status'),
-        content: Text('Apakah Anda yakin ingin mengubah status pesanan menjadi "${OrderStatus.getDisplayName(newStatus)}"?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Batal'),
-          ),
-          TextButton(
-            onPressed: () {
-              // Update order status
-              Navigator.of(context).pop();
-            },
-            child: const Text(
-              'Update',
-              style: TextStyle(color: AppColors.primary),
-            ),
-          ),
-        ],
       ),
     );
   }

@@ -6,6 +6,7 @@ import 'seller/seller_dashboard_screen.dart';
 import 'seller/seller_products_screen.dart';
 import 'seller/seller_orders_screen.dart';
 import 'seller/seller_profile_screen.dart';
+import 'seller/seller_chat_screen.dart';
 import 'courier/courier_dashboard_screen.dart';
 import 'courier/courier_profile_screen.dart';
 import 'courier/courier_history_screen.dart';
@@ -46,23 +47,28 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildSellerHome() {
     final List<Widget> sellerScreens = [
       const SellerDashboardScreen(),
-      const SellerProductsScreen(),
+      const SellerChatScreen(),
       const SellerOrdersScreen(),
+      Container(),
       const SellerProfileScreen(),
     ];
 
     final List<BottomNavigationBarItem> sellerItems = [
       const BottomNavigationBarItem(
-        icon: Icon(Icons.dashboard),
-        label: 'Dashboard',
+        icon: Icon(Icons.home),
+        label: 'Beranda',
       ),
       const BottomNavigationBarItem(
-        icon: Icon(Icons.inventory),
-        label: 'Produk',
+        icon: Icon(Icons.chat_bubble_outline),
+        label: 'Chat',
       ),
       const BottomNavigationBarItem(
-        icon: Icon(Icons.shopping_cart),
+        icon: Icon(Icons.shopping_bag),
         label: 'Pesanan',
+      ),
+      const BottomNavigationBarItem(
+        icon: Icon(Icons.receipt_long),
+        label: 'Riwayat',
       ),
       const BottomNavigationBarItem(
         icon: Icon(Icons.person),
@@ -85,6 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         selectedItemColor: AppColors.primary,
         unselectedItemColor: AppColors.textSecondary,
+        showUnselectedLabels: true,
         items: sellerItems,
       ),
     );
