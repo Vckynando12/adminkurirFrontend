@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'courier_history_detail_screen.dart';
 
 class CourierHistoryScreen extends StatelessWidget {
   const CourierHistoryScreen({super.key});
@@ -17,12 +18,12 @@ class CourierHistoryScreen extends StatelessWidget {
       body: ListView.builder(
         padding: const EdgeInsets.all(16),
         itemCount: 3,
-        itemBuilder: (context, index) => _buildHistoryCard(),
+        itemBuilder: (context, index) => _buildHistoryCard(context),
       ),
     );
   }
 
-  Widget _buildHistoryCard() {
+  Widget _buildHistoryCard(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(14),
@@ -87,7 +88,12 @@ class CourierHistoryScreen extends StatelessWidget {
                     SizedBox(
                       height: 32,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const CourierHistoryDetailScreen()),
+                          );
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue,
                           foregroundColor: Colors.white,

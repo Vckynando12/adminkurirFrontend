@@ -64,6 +64,8 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - assets/images/nasi_ayam.jpg
+    - assets/images/courier.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
