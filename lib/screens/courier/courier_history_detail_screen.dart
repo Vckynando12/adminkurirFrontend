@@ -239,7 +239,7 @@ class CourierHistoryDetailScreen extends StatelessWidget {
                     Expanded(
                       child: Text('Kantin 2', style: const TextStyle(fontSize: 13, color: Colors.grey)),
                     ),
-                    const Text('Status : ', style: TextStyle(fontSize: 13, color: Colors.grey)),
+                    const Text('Status : ', style: TextStyle(fontSize: 13, color: Colors.blue)),
                     Text('Selesai', style: const TextStyle(fontSize: 13, color: Colors.blue, fontWeight: FontWeight.bold)),
                   ],
                 ),
