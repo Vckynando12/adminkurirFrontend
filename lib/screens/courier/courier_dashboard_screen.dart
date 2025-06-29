@@ -1,9 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../providers/auth_provider.dart';
-import '../../providers/order_provider.dart';
-import '../../utils/constants.dart';
-import '../../widgets/custom_button.dart';
 import 'courier_delivery_screen.dart';
 import 'card_courier_history_detail_screen.dart';
 import 'courier_capture_screen.dart';
@@ -17,7 +12,6 @@ class CourierDashboardScreen extends StatefulWidget {
 
 class _CourierDashboardScreenState extends State<CourierDashboardScreen> with SingleTickerProviderStateMixin {
   int _tabIndex = 0;
-  int _navIndex = 0;
 
   @override
   void initState() {
@@ -83,13 +77,13 @@ class _CourierDashboardScreenState extends State<CourierDashboardScreen> with Si
               border: Border(bottom: BorderSide(color: Colors.grey[300]!)),
             ),
             child: Row(
-                          children: [
+              children: [
                 _buildTab('Untuk Dikirim', 0),
                 _buildTab('Konfirmasi', 1),
                 _buildTab('Dibatalkan', 2),
-                      ],
-                    ),
-                  ),
+              ],
+            ),
+          ),
           // List pesanan
           Expanded(
             child: Builder(
@@ -337,9 +331,9 @@ class _CourierDashboardScreenState extends State<CourierDashboardScreen> with Si
               bottom: BorderSide(
                 color: active ? Colors.blue : Colors.transparent,
                 width: 3,
-                    ),
-                  ),
-                ),
+              ),
+            ),
+          ),
           child: Text(
             label,
             textAlign: TextAlign.center,
@@ -402,7 +396,7 @@ class _CourierDashboardScreenState extends State<CourierDashboardScreen> with Si
               child: Image.asset(
                 logoAsset,
                 fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => Icon(Icons.person, color: Colors.blue, size: 28),
+                errorBuilder: (context, error, stackTrace) => const Icon(Icons.person, color: Colors.blue, size: 28),
               ),
             ),
           ),

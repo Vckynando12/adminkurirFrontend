@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'courier_dashboard_screen.dart';
 import '../home_screen.dart';
 
 class CourierDeliveryScreen extends StatelessWidget {
@@ -42,7 +41,7 @@ class CourierDeliveryScreen extends StatelessWidget {
             child: CircleAvatar(
               radius: 18,
               backgroundColor: Colors.white,
-              child: CircleAvatar(
+              child: const CircleAvatar(
                 radius: 16,
                 backgroundImage: AssetImage('assets/images/orang.jpg'),
               ),
@@ -54,7 +53,7 @@ class CourierDeliveryScreen extends StatelessWidget {
             child: CircleAvatar(
               radius: 18,
               backgroundColor: Colors.white,
-              child: CircleAvatar(
+              child: const CircleAvatar(
                 radius: 16,
                 backgroundImage: AssetImage('assets/images/courier.png'),
               ),
@@ -88,8 +87,8 @@ class CourierDeliveryScreen extends StatelessWidget {
                     children: [
                       CircleAvatar(
                         backgroundColor: Colors.green[50],
-                        child: const Icon(Icons.person, color: Colors.green),
                         radius: 18,
+                        child: const Icon(Icons.person, color: Colors.green),
                       ),
                       const SizedBox(width: 10),
                       const Text('Dipesan oleh', style: TextStyle(fontSize: 13, color: Colors.grey)),
@@ -113,9 +112,9 @@ class CourierDeliveryScreen extends StatelessWidget {
                       const Icon(Icons.location_on, color: Colors.red, size: 22),
                       const SizedBox(width: 8),
                       Expanded(
-                        child: Column(
+                        child: const Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
+                          children: [
                             Text('Alamat', style: TextStyle(fontSize: 13, color: Colors.grey)),
                             Text('Gedung Teknologi Informasi', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
                             SizedBox(height: 2),

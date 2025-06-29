@@ -36,13 +36,13 @@ class CourierHistoryDetailScreen extends StatelessWidget {
                 ),
               ],
             ),
-            child: Row(
+            child: const Row(
               children: [
-                const Icon(Icons.access_time, color: Colors.red, size: 22),
-                const SizedBox(width: 8),
+                Icon(Icons.access_time, color: Colors.red, size: 22),
+                SizedBox(width: 8),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text('Status Pengantaran', style: TextStyle(fontSize: 13, color: Colors.grey)),
                     Text('Belum diantar', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red)),
                   ],
@@ -65,9 +65,9 @@ class CourierHistoryDetailScreen extends StatelessWidget {
                 ),
               ],
             ),
-            child: Row(
+            child: const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
+              children: [
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,9 +103,9 @@ class CourierHistoryDetailScreen extends StatelessWidget {
                 ),
               ],
             ),
-            child: Column(
+            child: const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Text('Informasi Pelanggan', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
                 SizedBox(height: 8),
                 Row(
@@ -188,9 +188,9 @@ class CourierHistoryDetailScreen extends StatelessWidget {
                 _buildPaymentRow('Diskon', 'Rp 0'),
                 _buildPaymentRow('Uang Kembali', 'Rp 0'),
                 const Divider(),
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
+                  children: [
                     Text('Total Pembayaran', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
                     Text('Rp 22.000', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Color.fromARGB(255, 0, 0, 0))),
                   ],
@@ -236,7 +236,7 @@ class CourierHistoryDetailScreen extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
-            child: Image.asset('assets/images/nasi_ayam.jpg', width: 60, height: 60, fit: BoxFit.cover, errorBuilder: (context, error, stackTrace) => Icon(Icons.person, color: Colors.blue, size: 28)),
+            child: Image.asset('assets/images/nasi_ayam.jpg', width: 60, height: 60, fit: BoxFit.cover, errorBuilder: (context, error, stackTrace) => const Icon(Icons.person, color: Colors.blue, size: 28)),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -246,27 +246,27 @@ class CourierHistoryDetailScreen extends StatelessWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: Text('Nasi Ayam Geprek', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                    const Expanded(
+                      child: Text('Nasi Ayam Geprek', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
                     ),
                   ],
                 ),
                 const SizedBox(height: 4),
                 Row(
                   children: [
-                    Text('Rp 10.000', style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w500, fontSize: 13)),
+                    const Text('Rp 10.000', style: TextStyle(color: Colors.black87, fontWeight: FontWeight.w500, fontSize: 13)),
                     const Spacer(),
-                    Text('x1', style: const TextStyle(fontSize: 13, color: Colors.black54)),
+                    const Text('x1', style: TextStyle(fontSize: 13, color: Colors.black54)),
                   ],
                 ),
                 const SizedBox(height: 4),
                 Row(
                   children: [
-                    Expanded(
-                      child: Text('Kantin 2', style: const TextStyle(fontSize: 13, color: Colors.grey)),
+                    const Expanded(
+                      child: Text('Kantin 2', style: TextStyle(fontSize: 13, color: Colors.grey)),
                     ),
                     const Text('Status : ', style: TextStyle(fontSize: 13, color: Colors.blue)),
-                    Text('Selesai', style: const TextStyle(fontSize: 13, color: Colors.blue, fontWeight: FontWeight.bold)),
+                    const Text('Selesai', style: TextStyle(fontSize: 13, color: Colors.blue, fontWeight: FontWeight.bold)),
                   ],
                 ),
               ],

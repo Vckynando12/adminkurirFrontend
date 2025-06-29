@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../providers/order_provider.dart';
 import '../../models/order_model.dart';
 import '../../utils/constants.dart';
 import '../../utils/helpers.dart';
