@@ -14,6 +14,13 @@ class SellerOrdersScreen extends StatefulWidget {
 class _SellerOrdersScreenState extends State<SellerOrdersScreen> {
   String _selectedStatus = 'all';
 
+  // Tambahkan list status untuk dummy order
+  final List<String> _orderStatusList = [
+    'Pesanan menunggu diproses',
+    'Pesanan menunggu diproses',
+  ];
+  final List<bool> _orderWaitingList = [false, false];
+
   @override
   void initState() {
     super.initState();
@@ -125,6 +132,7 @@ class _SellerOrdersScreenState extends State<SellerOrdersScreen> {
               children: [
                 _orderCard(
                   context,
+                  index: 0,
                   offline: true,
                   nama: 'Nasi Ayam Geprek',
                   gambar: 'assets/images/nasi_ayam.jpg',
@@ -134,10 +142,11 @@ class _SellerOrdersScreenState extends State<SellerOrdersScreen> {
                   pembeli: 'Dwi Sartika',
                   catatan: 'Cth: Nasinya dikit',
                   meja: '23',
-                  status: 'Pesanan menunggu diproses',
+                  status: _orderStatusList[0],
                 ),
                 _orderCard(
                   context,
+                  index: 1,
                   offline: false,
                   nama: 'Nasi Ayam Geprek',
                   gambar: 'assets/images/nasi_ayam.jpg',
@@ -147,7 +156,7 @@ class _SellerOrdersScreenState extends State<SellerOrdersScreen> {
                   pembeli: 'Dwi Sartika',
                   catatan: 'Cth: Nasinya dikit\nTambah Alat Makan',
                   meja: null,
-                  status: 'Pesanan menunggu diproses',
+                  status: _orderStatusList[1],
                 ),
               ],
             ),
@@ -159,6 +168,7 @@ class _SellerOrdersScreenState extends State<SellerOrdersScreen> {
 
   Widget _orderCard(
     BuildContext context, {
+    required int index,
     required bool offline,
     required String nama,
     required String gambar,
@@ -170,6 +180,8 @@ class _SellerOrdersScreenState extends State<SellerOrdersScreen> {
     String? meja,
     required String status,
   }) {
+    final bool isProcessing = status == 'Pesanan lagi diproses';
+    final bool isWaiting = status == 'Menunggu pesanan lain diselesaikan';
     return Container(
       margin: const EdgeInsets.only(bottom: 14),
       padding: const EdgeInsets.all(10),
@@ -265,38 +277,82 @@ class _SellerOrdersScreenState extends State<SellerOrdersScreen> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Flexible(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                        decoration: BoxDecoration(
-                          color: Colors.red[50],
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Text(
-                          status,
-                          style: const TextStyle(color: Colors.red, fontSize: 11, fontWeight: FontWeight.w600),
-                          overflow: TextOverflow.ellipsis,
+                    // Status di kiri bawah
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                          decoration: BoxDecoration(
+                            color: isProcessing
+                                ? Colors.green[50]
+                                : isWaiting
+                                    ? Colors.blue[50]
+                                    : Colors.red[50],
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            status,
+                            style: TextStyle(
+                              color: isProcessing
+                                  ? Colors.green
+                                  : isWaiting
+                                      ? Colors.blue
+                                      : Colors.red,
+                              fontSize: 11,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ),
                     ),
-                    const SizedBox(width: 8),
-                    SizedBox(
-                      height: 28,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFFFFEB3B),
-                          foregroundColor: Colors.black,
-                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 0),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                          textStyle: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
-                          elevation: 0,
+                    // Tombol di kanan bawah
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: SizedBox(
+                        height: 28,
+                        child: ElevatedButton(
+                          onPressed: isProcessing
+                              ? () {
+                                  setState(() {
+                                    _orderStatusList[index] = 'Menunggu pesanan lain diselesaikan';
+                                    _orderWaitingList[index] = true;
+                                  });
+                                }
+                              : isWaiting
+                                  ? null
+                                  : () {
+                                      _showConfirmCookDialog(context, index);
+                                    },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: isProcessing
+                                ? const Color(0xFF2196F3)
+                                : isWaiting
+                                    ? Colors.grey[400]
+                                    : const Color(0xFFFFEB3B),
+                            foregroundColor: isProcessing
+                                ? Colors.white
+                                : isWaiting
+                                    ? Colors.white
+                                    : Colors.black,
+                            padding: isWaiting
+                                ? const EdgeInsets.symmetric(horizontal: 12, vertical: 0)
+                                : const EdgeInsets.symmetric(horizontal: 24, vertical: 0),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                            textStyle: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+                            elevation: 0,
+                          ),
+                          child: Text(isProcessing
+                              ? 'Selesai'
+                              : isWaiting
+                                  ? 'Menunggu'
+                                  : 'Memasak'),
                         ),
-                        child: const Text('Memasak'),
                       ),
                     ),
                   ],
-                ),
+e                ),
               ],
             ),
           ),
@@ -372,5 +428,100 @@ class _SellerOrdersScreenState extends State<SellerOrdersScreen> {
     ];
     
     return mockOrders[index % mockOrders.length];
+  }
+
+  void _showConfirmCookDialog(BuildContext context, int index) {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+          insetPadding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
+          child: Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const SizedBox(height: 8),
+                    Image.asset(
+                      'assets/images/tanya.png',
+                      height: 90,
+                      fit: BoxFit.contain,
+                    ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      'Pesanan akan dimasak?',
+                      style: TextStyle(
+                        color: Color(0xFF2196F3),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 6),
+                    const Text(
+                      'Tekan tombol "Ya" untuk mengkonfirmasi',
+                      style: TextStyle(
+                        color: Colors.black54,
+                        fontSize: 13,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 22),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red,
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              elevation: 0,
+                            ),
+                            child: const Text('Tidak'),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                _orderStatusList[index] = 'Pesanan lagi diproses';
+                              });
+                              Navigator.of(context).pop();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color(0xFF2196F3),
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              elevation: 0,
+                            ),
+                            child: const Text('Ya'),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Positioned(
+                top: 8,
+                right: 8,
+                child: GestureDetector(
+                  onTap: () => Navigator.of(context).pop(),
+                  child: const Icon(Icons.close, size: 22, color: Colors.black45),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 } 
