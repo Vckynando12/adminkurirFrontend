@@ -7,8 +7,9 @@ import 'seller/seller_products_screen.dart';
 import 'seller/seller_orders_screen.dart';
 import 'seller/seller_profile_screen.dart';
 import 'courier/courier_dashboard_screen.dart';
-import 'courier/courier_orders_screen.dart';
 import 'courier/courier_profile_screen.dart';
+import 'courier/courier_history_screen.dart';
+import 'courier/courier_chat_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -92,18 +93,23 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildCourierHome() {
     final List<Widget> courierScreens = [
       const CourierDashboardScreen(),
-      const CourierOrdersScreen(),
+      const CourierHistoryScreen(),
+      const CourierChatScreen(),
       const CourierProfileScreen(),
     ];
 
     final List<BottomNavigationBarItem> courierItems = [
       const BottomNavigationBarItem(
-        icon: Icon(Icons.dashboard),
-        label: 'Dashboard',
+        icon: Icon(Icons.list_alt),
+        label: 'Pesanan',
       ),
       const BottomNavigationBarItem(
-        icon: Icon(Icons.local_shipping),
-        label: 'Pengiriman',
+        icon: Icon(Icons.history),
+        label: 'Riwayat',
+      ),
+      const BottomNavigationBarItem(
+        icon: Icon(Icons.chat),
+        label: 'Chat',
       ),
       const BottomNavigationBarItem(
         icon: Icon(Icons.person),

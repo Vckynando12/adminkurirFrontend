@@ -29,10 +29,10 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _loginTanpaKredensial() async {
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
     await authProvider.loginTanpaKredensial(_isCourier ? 'courier' : 'seller');
     if (mounted) {
-      Navigator.of(context).pushReplacementNamed('/home');
+        Navigator.of(context).pushReplacementNamed('/home');
     }
   }
 
