@@ -352,7 +352,7 @@ class _SellerOrdersScreenState extends State<SellerOrdersScreen> {
                       ),
                     ),
                   ],
-e                ),
+                ),
               ],
             ),
           ),
