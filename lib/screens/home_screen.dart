@@ -1,0 +1,133 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/auth_provider.dart';
+import '../utils/constants.dart';
+import 'seller/seller_dashboard_screen.dart';
+import 'seller/seller_products_screen.dart';
+import 'seller/seller_orders_screen.dart';
+import 'seller/seller_profile_screen.dart';
+import 'courier/courier_dashboard_screen.dart';
+import 'courier/courier_orders_screen.dart';
+import 'courier/courier_profile_screen.dart';
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _currentIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<AuthProvider>(
+      builder: (context, authProvider, child) {
+        final user = authProvider.currentUser;
+        if (user == null) {
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+
+        if (user.role == UserRole.seller) {
+          return _buildSellerHome();
+        } else {
+          return _buildCourierHome();
+        }
+      },
+    );
+  }
+
+  Widget _buildSellerHome() {
+    final List<Widget> sellerScreens = [
+      const SellerDashboardScreen(),
+      const SellerProductsScreen(),
+      const SellerOrdersScreen(),
+      const SellerProfileScreen(),
+    ];
+
+    final List<BottomNavigationBarItem> sellerItems = [
+      const BottomNavigationBarItem(
+        icon: Icon(Icons.dashboard),
+        label: 'Dashboard',
+      ),
+      const BottomNavigationBarItem(
+        icon: Icon(Icons.inventory),
+        label: 'Produk',
+      ),
+      const BottomNavigationBarItem(
+        icon: Icon(Icons.shopping_cart),
+        label: 'Pesanan',
+      ),
+      const BottomNavigationBarItem(
+        icon: Icon(Icons.person),
+        label: 'Profil',
+      ),
+    ];
+
+    return Scaffold(
+      body: IndexedStack(
+        index: _currentIndex,
+        children: sellerScreens,
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        currentIndex: _currentIndex,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        selectedItemColor: AppColors.primary,
+        unselectedItemColor: AppColors.textSecondary,
+        items: sellerItems,
+      ),
+    );
+  }
+
+  Widget _buildCourierHome() {
+    final List<Widget> courierScreens = [
+      const CourierDashboardScreen(),
+      const CourierOrdersScreen(),
+      const CourierProfileScreen(),
+    ];
+
+    final List<BottomNavigationBarItem> courierItems = [
+      const BottomNavigationBarItem(
+        icon: Icon(Icons.dashboard),
+        label: 'Dashboard',
+      ),
+      const BottomNavigationBarItem(
+        icon: Icon(Icons.local_shipping),
+        label: 'Pengiriman',
+      ),
+      const BottomNavigationBarItem(
+        icon: Icon(Icons.person),
+        label: 'Profil',
+      ),
+    ];
+
+    return Scaffold(
+      body: IndexedStack(
+        index: _currentIndex,
+        children: courierScreens,
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        currentIndex: _currentIndex,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        selectedItemColor: AppColors.primary,
+        unselectedItemColor: AppColors.textSecondary,
+        items: courierItems,
+      ),
+    );
+  }
+} 
